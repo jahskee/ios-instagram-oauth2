@@ -1,0 +1,16 @@
+PODS:
+  - NXOAuth2Client (1.2.8)
+
+DEPENDENCIES:
+  - NXOAuth2Client (~> 1.2.8)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - NXOAuth2Client
+
+SPEC CHECKSUMS:
+  NXOAuth2Client: 98c4d4c594edd2b289cfc34a8928653e1dab7adf
+
+PODFILE CHECKSUM: 249caec2bb61c6a16cf8eea29646da1a4f0ef426
+
+COCOAPODS: 1.6.1
