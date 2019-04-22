@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "NXOAuth2.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -23,9 +24,10 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (IBAction)loginButtonPressed:(id)sender {
-    NSLog(@"Testing");
+    [[NXOAuth2AccountStore sharedStore] requestAccessToAccountWithType: @"Instagram"];
 }
 - (IBAction)logoutButtonPressed:(id)sender {
+   
 }
 - (IBAction)refreshButtonPressed:(id)sender {
 }

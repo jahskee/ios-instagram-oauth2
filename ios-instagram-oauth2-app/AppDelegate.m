@@ -7,20 +7,44 @@
 //
 
 #import "AppDelegate.h"
+#import "NXOAuth2.h"
 
 @interface AppDelegate ()
-
+@property (atomic) NSString *outgoingRedirect;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // The first string is the one registered with instagram
+    self.outgoingRedirect = @"http://djp3.westmont.edu/classes/2015-coursera-live/redirect.php/myscheme/thing.com";
+    
     // Override point for customization after application launch.
+    [[NXOAuth2AccountStore sharedStore] setClientID:@"5ba3419e49ba4b0693b3005e4b27090d"
+                                             secret:@"9dfbeebadcaf449fbc0ce84463c4340e"
+                                   authorizationURL:[NSURL URLWithString:@"https://api.instagram.com/oauth/authorize"]
+                                           tokenURL:[NSURL URLWithString:@"https://api.instagram.com/oauth/access_token"]
+                                        redirectURL:[NSURL URLWithString:self.outgoingRedirect]
+                                     forAccountType:@"Instagram"];
+    
     return YES;
 }
 
 
+- (BOOL) application: (UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
+    NSLog(@"We received a callback");
+    return [[NXOAuth2AccountStore sharedStore] handleRedirectURL:url];
+}
+
+/*
+ // deprecated
+- (BOOL) application:(UIApplication *)app handleOpenURL:(nonnull NSURL *)url {
+    NSLog(@"We recieved a callback");
+    return [[NXOAuth2AccountStore sharedStore] handleRedirectURL:url];
+}
+*/
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
