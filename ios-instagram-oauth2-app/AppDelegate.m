@@ -11,6 +11,7 @@
 
 @interface AppDelegate ()
 @property (atomic) NSString *outgoingRedirect;
+@property (atomic) NSString *incomingRedirect;
 @end
 
 @implementation AppDelegate
@@ -20,7 +21,7 @@
     
     // The first string is the one registered with instagram
     self.outgoingRedirect = @"http://djp3.westmont.edu/classes/2015-coursera-live/redirect.php/myscheme/thing.com";
-    
+    self.incomingRedirect = @"myscheme://thing.com";
     // Override point for customization after application launch.
     [[NXOAuth2AccountStore sharedStore] setClientID:@"5ba3419e49ba4b0693b3005e4b27090d"
                                              secret:@"9dfbeebadcaf449fbc0ce84463c4340e"
@@ -32,10 +33,21 @@
     return YES;
 }
 
-
+/*
+ - (BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
+ if([self.incomingRedirect containsString:[url scheme]] && [self.incomingRedirect containsString:[url host]]) {
+ NSURL *constructed = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", self.outgoingRedirect, [url query]]];
+ return [[NXOAuth2AccountStore sharedStore] handleRedirectURL:constructed];
+ } else {
+ }*/
 - (BOOL) application: (UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
-    NSLog(@"We received a callback");
-    return [[NXOAuth2AccountStore sharedStore] handleRedirectURL:url];
+    if([self.incomingRedirect containsString:[url scheme]] && [self.incomingRedirect containsString:[url host]]) {
+        NSURL *constructed = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", self.outgoingRedirect, [url query]]];
+        return [[NXOAuth2AccountStore sharedStore] handleRedirectURL:constructed];
+    } else {
+        return [[NXOAuth2AccountStore sharedStore] handleRedirectURL:url];
+    }
+  
 }
 
 /*
